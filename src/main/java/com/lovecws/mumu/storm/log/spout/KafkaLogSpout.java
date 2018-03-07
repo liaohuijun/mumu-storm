@@ -11,7 +11,6 @@ import org.apache.storm.topology.base.BaseRichSpout;
 import org.apache.storm.tuple.Fields;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author babymm
@@ -41,27 +40,22 @@ public class KafkaLogSpout extends BaseRichSpout {
 
     @Override
     public void nextTuple() {
-        try {
-            while (true) {
-                TimeUnit.SECONDS.sleep(1);
-                consumer.subscribe(Collections.singleton("mmsnsPortalLogTopic"));
-                ConsumerRecords<Integer, String> records = consumer.poll(1000);
-                for (ConsumerRecord<Integer, String> record : records) {
-                    collector.emit(Arrays.asList(record.value()), UUID.randomUUID().toString().replace("-", ""));
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        consumer.subscribe(Collections.singleton("mmsnsPortalLogTopic"));
+        ConsumerRecords<Integer, String> records = consumer.poll(100);
+        for (ConsumerRecord<Integer, String> record : records) {
+            collector.emit(Arrays.asList(record.value()), UUID.randomUUID().toString().replace("-", ""));
         }
     }
 
     @Override
     public void ack(final Object msgId) {
+        System.out.println("ack:" + msgId);
         super.ack(msgId);
     }
 
     @Override
     public void fail(final Object msgId) {
+        System.out.println("fail:" + msgId);
         super.fail(msgId);
     }
 
