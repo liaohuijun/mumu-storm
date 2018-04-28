@@ -35,7 +35,7 @@ public class WordReader implements IRichSpout {
          */
         if (completed) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 // 什么也不做
             }

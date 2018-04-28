@@ -11,6 +11,7 @@ import org.apache.storm.LocalCluster;
 import org.apache.storm.generated.StormTopology;
 import org.apache.storm.trident.TridentTopology;
 import org.apache.storm.trident.operation.builtin.Count;
+import org.apache.storm.trident.state.StateFactory;
 import org.apache.storm.tuple.Fields;
 
 import java.util.HashMap;
